@@ -44,8 +44,5 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        int vX = e.getX();
-        int vY = e.getY();
-        this.aGP.setRectPosition(vX, vY);
     }
 }

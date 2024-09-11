@@ -10,6 +10,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static utilz.Constants.PlayerConstants.*;
+import static utilz.Constants.Directions.*;
+
 public class GamePanel extends JPanel {
     private MouseInputs aMouseInputs;
     private float aXDelta = 100, aYDelta = 100;
@@ -18,6 +21,9 @@ public class GamePanel extends JPanel {
     private int aAnimTick;
     private int aAnimIndex;
     private final int aAnimSpeed = 15;
+    private int aPlayerAction = IDLE;
+    private int aPlayerDirection = -1;
+    private boolean aMoving = false;
 
     public GamePanel() {
         this.aMouseInputs = new MouseInputs(this);
@@ -32,10 +38,10 @@ public class GamePanel extends JPanel {
     }
 
     private void loadAnimations() {
-        this.aAnimations = new BufferedImage[19][6];
+        this.aAnimations = new BufferedImage[9][6];
         for(int vJ = 0; vJ < this.aAnimations.length; vJ++) {
             for (int vI = 0; vI < this.aAnimations[vJ].length; vI++) {
-                this.aAnimations[vJ][vI] = this.aImg.getSubimage(vI * 96, vJ * 96, 96, 96);
+                this.aAnimations[vJ][vI] = this.aImg.getSubimage(vI * 96, (vJ + 8) * 96, 96, 96); // Commencer les animations a partir de l'épée
             }
         }
     }
@@ -56,37 +62,51 @@ public class GamePanel extends JPanel {
         this.setMaximumSize(vSize);
     }
 
+    public void setAnimation() {
+        if(this.aMoving) {
+            this.aPlayerAction = RUNNING;
+        } else {
+            this.aPlayerAction = IDLE;
+        }
+    }
+
+    public void updatePosition() {
+        if(this.aMoving) {
+            switch (this.aPlayerDirection) {
+                case LEFT:
+                    this.aYDelta -= 5;
+                // TODO : Faire les autres cas
+            }
+        }
+    }
+
     public void paintComponent(final Graphics pG) {
         super.paintComponent(pG);
 
         this.updateAnimTick();
-        pG.drawImage(this.aAnimations[2][1], (int)this.aXDelta, (int)this.aYDelta, 192, 192, null);
+        this.setAnimation();
+
+        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)this.aXDelta, (int)this.aYDelta, 192, 192, null);
     }
 
     private void updateAnimTick() {
-//        this.aAnimTick++;
-//        if(this.aAnimTick == this.aAnimSpeed) {
-//            this.aAnimIndex++;
-//            this.aAnimTick = 0;
-//
-//            if(this.aAnimIndex == this.aRunAnim.length) {
-//                this.aAnimIndex = 0;
-//            }
-//        }
+        this.aAnimTick++;
+        if(this.aAnimTick == this.aAnimSpeed) {
+            this.aAnimIndex++;
+            this.aAnimTick = 0;
+
+            if(this.aAnimIndex >= GetSpriteAmount(this.aPlayerAction)) {
+                this.aAnimIndex = 0;
+            }
+        }
     }
 
-    public void changeXDelta(final int pN) {
-        this.aXDelta += pN;
-        this.repaint();
+    public void setDirection(final int pDirection) {
+        this.aPlayerDirection = pDirection;
+        this.aMoving = true;
     }
 
-    public void changeYDelta(final int pN) {
-        this.aYDelta += pN;
-        this.repaint();
-    }
-
-    public void setRectPosition(final int pX, final int pY) {
-        this.aXDelta = pX;
-        this.aYDelta = pY;
+    public void setMoving(final boolean pMoving) {
+        this.aMoving = pMoving;
     }
 }
