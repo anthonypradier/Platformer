@@ -83,4 +83,8 @@ public class Game implements Runnable {
     public Player getPlayer() {
         return this.aPlayer;
     }
+
+    public void windowFocusLost() {
+        this.aPlayer.resetDirBoolean();
+    }
 }

@@ -1,5 +1,7 @@
 package entities;
 
+import utilz.LoadSave;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,7 +19,7 @@ public class Player extends Entity {
     private final int aAnimSpeed = 15;
     private int aPlayerAction = IDLE;
     private int aPlayerDirection = -1;
-    private boolean aMoving = false;
+    private boolean aMoving = false, aAttacking = false;
     private float aPlayerSpeed = 3f;
 
     private boolean aLeft, aUp, aRight, aDown;
@@ -38,32 +40,35 @@ public class Player extends Entity {
     }
 
     private void loadAnimations() {
-        InputStream vIS = this.getClass().getResourceAsStream("/Player-Sheet.png");
-        try {
-            BufferedImage vImg = ImageIO.read(vIS);
-            this.aAnimations = new BufferedImage[9][6];
-            for(int vJ = 0; vJ < this.aAnimations.length; vJ++) {
-                for (int vI = 0; vI < this.aAnimations[vJ].length; vI++) {
-                    this.aAnimations[vJ][vI] = vImg.getSubimage(vI * 96, (vJ + 8) * 96, 96, 96); // Commencer les animations a partir de l'épée
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                vIS.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+        BufferedImage vImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
+        this.aAnimations = new BufferedImage[9][6];
+        for(int vJ = 0; vJ < this.aAnimations.length; vJ++) {
+            for (int vI = 0; vI < this.aAnimations[vJ].length; vI++) {
+                this.aAnimations[vJ][vI] = vImg.getSubimage(vI * 96, (vJ + 8) * 96, 96, 96); // Commencer les animations a partir de l'épée
             }
         }
     }
 
     public void setAnimation() {
+        int vStartAnim = this.aPlayerAction;
         if(this.aMoving) {
             this.aPlayerAction = RUNNING;
         } else {
             this.aPlayerAction = IDLE;
         }
+
+        if(this.aAttacking) {
+            this.aPlayerAction = ATTACK;
+        }
+
+        if(this.aPlayerAction != vStartAnim) {
+            this.resetAnimTick();
+        }
+    }
+
+    public void resetAnimTick() {
+        this.aAnimTick = 0;
+        this.aAnimIndex = 0;
     }
 
     public void updatePosition() {
@@ -94,8 +99,20 @@ public class Player extends Entity {
 
             if(this.aAnimIndex >= GetSpriteAmount(this.aPlayerAction)) {
                 this.aAnimIndex = 0;
+                this.aAttacking = false;
             }
         }
+    }
+
+    public void resetDirBoolean() {
+        this.aLeft = false;
+        this.aUp = false;
+        this.aRight = false;
+        this.aDown = false;
+    }
+
+    public void setAttacking(final boolean pAttacking) {
+        this.aAttacking = pAttacking;
     }
 
     public boolean isLeft() {
