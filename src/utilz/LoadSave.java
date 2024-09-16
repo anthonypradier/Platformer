@@ -11,7 +11,7 @@ import java.io.InputStream;
 public class LoadSave {
     public static final String PLAYER_ATLAS = "/Player-sprites.png";
     public static final String LEVEL_ATLAS = "/Outside-sprites.png";
-    public static final String LEVEL_ONE_DATA = "/Level-one-data.png";
+    public static final String LEVEL_ONE_DATA = "/Level-one-data-export.png";
 
 
     public static BufferedImage GetSpriteAtlas(final String pFileName) {
@@ -40,7 +40,7 @@ public class LoadSave {
                 Color vColor = new Color(vImg.getRGB(vI, vJ));
                 int vValue = vColor.getRed();
                 if(vValue >= 48) {
-                    vValue = 0;
+                    vValue = 255;
                 }
                 vLevelData[vJ][vI] = vValue;
             }
