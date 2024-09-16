@@ -16,14 +16,6 @@ public class LevelManager {
         this.aGame = pGame;
         this.importOutsideSprites();
         this.aLevel1 = new Level(LoadSave.GetLevelData());
-        for(int i = 0; i < this.aLevel1.getLevel().length; i++) {
-            String vS = "";
-            for(int j = 0; j < this.aLevel1.getLevel()[0].length; j++) {
-                vS += " " + this.aLevel1.getLevel()[i][j];
-            }
-            System.out.println(vS);
-            vS = "";
-        }
     }
 
     private void importOutsideSprites() {
@@ -52,5 +44,9 @@ public class LevelManager {
 
     public void update() {
 
+    }
+
+    public Level getCurrentLevel() {
+        return this.aLevel1;
     }
 }

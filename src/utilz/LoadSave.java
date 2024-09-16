@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class LoadSave {
-    public static final String PLAYER_ATLAS = "/Player-sprites.png";
+    public static final String PLAYER_ATLAS = "/Player-sprites-export.png";
     public static final String LEVEL_ATLAS = "/Outside-sprites.png";
     public static final String LEVEL_ONE_DATA = "/Level-one-data-export.png";
 
@@ -40,7 +40,7 @@ public class LoadSave {
                 Color vColor = new Color(vImg.getRGB(vI, vJ));
                 int vValue = vColor.getRed();
                 if(vValue >= 48) {
-                    vValue = 255;
+                    vValue = 11;
                 }
                 vLevelData[vJ][vI] = vValue;
             }

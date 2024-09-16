@@ -31,8 +31,9 @@ public class Game implements Runnable {
     }
 
     private void initClasses() {
-        this.aPlayer = new Player(100, 100);
         this.aLevelManager = new LevelManager(this);
+        this.aPlayer = new Player(100, 100, (int)(96 * SCALE), (int)(96 * SCALE));
+        this.aPlayer.loadLevelData(this.aLevelManager.getCurrentLevel().getLevelData());
     }
 
     private void startGameLoop() {

@@ -11,7 +11,7 @@ public class Level {
         return this.aLevelData[pY][pX];
     }
 
-    public int[][] getLevel() {
+    public int[][] getLevelData() {
         return this.aLevelData;
     }
 }

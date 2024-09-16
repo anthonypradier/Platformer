@@ -12,6 +12,8 @@ import static utilz.Constants.Directions.*;
 import static utilz.Constants.Directions.DOWN;
 import static utilz.Constants.PlayerConstants.*;
 
+import static utilz.HelpMethods.CanMoveHere;
+
 public class Player extends Entity {
     private BufferedImage[][] aAnimations;
     private int aAnimTick;
@@ -20,23 +22,27 @@ public class Player extends Entity {
     private int aPlayerAction = IDLE;
     private int aPlayerDirection = -1;
     private boolean aMoving = false, aAttacking = false;
-    private float aPlayerSpeed = 3f;
+    private float aPlayerSpeed = 2.0f;
 
     private boolean aLeft, aUp, aRight, aDown;
 
-    public Player(final float pX, final float pY) {
-        super(pX, pY);
+    private int[][] aLvlData;
+
+    public Player(final float pX, final float pY, final int pWidth, final int pHeight) {
+        super(pX, pY, pWidth, pHeight);
         this.loadAnimations();
     }
 
     public void update() {
         this.updatePosition();
+        this.updateHitbox();
         this.updateAnimTick();
         this.setAnimation();
     }
 
     public void render(final Graphics pG) {
-        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)this.aX, (int)this.aY, 192, 192, null);
+        this.drawHitbox(pG);
+        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)this.aX, (int)this.aY, this.aWidth, this.aHeight, null);
     }
 
     private void loadAnimations() {
@@ -47,6 +53,10 @@ public class Player extends Entity {
                 this.aAnimations[vJ][vI] = vImg.getSubimage(vI * 96, (vJ + 8) * 96, 96, 96); // Commencer les animations a partir de l'épée
             }
         }
+    }
+
+    public void loadLevelData(final int[][] pLvlData) {
+        this.aLvlData = pLvlData;
     }
 
     public void setAnimation() {
@@ -73,20 +83,26 @@ public class Player extends Entity {
 
     public void updatePosition() {
         this.aMoving = false;
+        if(!this.aLeft && !this.aUp && !this.aRight && !this.aDown) {
+            return;
+        }
+        float vXSpeed = 0; float vYSpeed = 0;
 
         if(this.aLeft && !this.aRight) {
-            this.aX -= this.aPlayerSpeed;
-            this.aMoving = true;
+            vXSpeed = this.aPlayerSpeed;
         } else if(!this.aLeft  && this.aRight) {
-            this.aX += this.aPlayerSpeed;
-            this.aMoving = true;
+            vXSpeed = this.aPlayerSpeed;
         }
 
         if(this.aUp && !this.aDown) {
-            this.aY -= this.aPlayerSpeed;
-            this.aMoving = true;
+            vYSpeed = this.aPlayerSpeed;
         } else if(!this.aUp  && this.aDown) {
-            this.aY += this.aPlayerSpeed;
+            vYSpeed = this.aPlayerSpeed;
+        }
+
+        if(CanMoveHere(this.aX + vXSpeed, this.aY + vYSpeed, this.aWidth, this.aHeight, this.aLvlData)) {
+            this.aX += vXSpeed;
+            this.aY += vYSpeed;
             this.aMoving = true;
         }
     }
