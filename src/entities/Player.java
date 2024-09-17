@@ -29,14 +29,18 @@ public class Player extends Entity {
 
     private int[][] aLvlData;
 
-    private float aXDrawOffset = 40 * Game.SCALE;
-    private float aYDrawOffset = 38 * Game.SCALE;
+//    private float  aXDrawOffset = 40 * Game.SCALE;
+//    private float aYDrawOffset = 38 * Game.SCALE;
     // 32 + 8 en x, 32 + 6 en y
 
     public Player(final float pX, final float pY, final int pWidth, final int pHeight) {
         super(pX, pY, pWidth, pHeight);
         this.loadAnimations();
-        this.initHitbox(pX, pY, 16 * Game.SCALE, 26 * Game.SCALE);
+
+        this.aXDrawOffset = 40 * Game.SCALE;
+        this.aYDrawOffset = 38 * Game.SCALE;
+
+        this.initHitbox(pX + this.aXDrawOffset, pY + this.aYDrawOffset, 16 * Game.SCALE, 26 * Game.SCALE);
     }
 
     public void update() {
@@ -47,9 +51,11 @@ public class Player extends Entity {
 
     public void render(final Graphics pG) {
         this.drawHitbox(pG);
+
         this.drawSpriteBox(pG);
-//        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
+
         pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
+//        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x), (int)(this.aHitbox.y), this.aWidth, this.aHeight, null);
     // TODO : actuellement : on affiche l'image en soustrayant les coordonnées d'offset de la sprite. A faire : afficher la sprite en elle meme comme avant en faisant l'offset sur la hitBox et non sur l'affichage. Faire drawSpriteBox()
     }
 
@@ -111,6 +117,10 @@ public class Player extends Entity {
         if(CanMoveHere(this.aHitbox.x + vXSpeed, this.aHitbox.y + vYSpeed, this.aHitbox.width, this.aHitbox.height, this.aLvlData)) {
             this.aHitbox.x += vXSpeed;
             this.aHitbox.y += vYSpeed;
+
+            this.aSpriteBox.x += vXSpeed;
+            this.aSpriteBox.y += vYSpeed;
+
             this.aMoving = true;
         }
     }
