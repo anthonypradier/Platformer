@@ -20,6 +20,7 @@ public class Game implements Runnable {
     public final static int GAME_HEIGHT = TILE_SIZE * TILE_IN_HEIGHT;
 
     private Player aPlayer;
+    public static final int PLAYER_SPRITE_SIZE = 96;
     private LevelManager aLevelManager;
 
     public Game() {
@@ -32,7 +33,7 @@ public class Game implements Runnable {
 
     private void initClasses() {
         this.aLevelManager = new LevelManager(this);
-        this.aPlayer = new Player(100, 100, (int)(96 * SCALE), (int)(96 * SCALE));
+        this.aPlayer = new Player(200, 200, (int)(PLAYER_SPRITE_SIZE * SCALE), (int)(PLAYER_SPRITE_SIZE * SCALE));
         this.aPlayer.loadLevelData(this.aLevelManager.getCurrentLevel().getLevelData());
     }
 

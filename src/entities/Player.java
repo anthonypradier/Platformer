@@ -1,5 +1,6 @@
 package entities;
 
+import main.Game;
 import utilz.LoadSave;
 
 import javax.imageio.ImageIO;
@@ -28,21 +29,28 @@ public class Player extends Entity {
 
     private int[][] aLvlData;
 
+    private float aXDrawOffset = 40 * Game.SCALE;
+    private float aYDrawOffset = 38 * Game.SCALE;
+    // 32 + 8 en x, 32 + 6 en y
+
     public Player(final float pX, final float pY, final int pWidth, final int pHeight) {
         super(pX, pY, pWidth, pHeight);
         this.loadAnimations();
+        this.initHitbox(pX, pY, 16 * Game.SCALE, 26 * Game.SCALE);
     }
 
     public void update() {
         this.updatePosition();
-        this.updateHitbox();
         this.updateAnimTick();
         this.setAnimation();
     }
 
     public void render(final Graphics pG) {
         this.drawHitbox(pG);
-        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)this.aX, (int)this.aY, this.aWidth, this.aHeight, null);
+        this.drawSpriteBox(pG);
+//        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
+        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
+    // TODO : actuellement : on affiche l'image en soustrayant les coordonnées d'offset de la sprite. A faire : afficher la sprite en elle meme comme avant en faisant l'offset sur la hitBox et non sur l'affichage. Faire drawSpriteBox()
     }
 
     private void loadAnimations() {
@@ -89,20 +97,20 @@ public class Player extends Entity {
         float vXSpeed = 0; float vYSpeed = 0;
 
         if(this.aLeft && !this.aRight) {
-            vXSpeed = this.aPlayerSpeed;
+            vXSpeed = -this.aPlayerSpeed;
         } else if(!this.aLeft  && this.aRight) {
             vXSpeed = this.aPlayerSpeed;
         }
 
         if(this.aUp && !this.aDown) {
-            vYSpeed = this.aPlayerSpeed;
+            vYSpeed = -this.aPlayerSpeed;
         } else if(!this.aUp  && this.aDown) {
             vYSpeed = this.aPlayerSpeed;
         }
 
-        if(CanMoveHere(this.aX + vXSpeed, this.aY + vYSpeed, this.aWidth, this.aHeight, this.aLvlData)) {
-            this.aX += vXSpeed;
-            this.aY += vYSpeed;
+        if(CanMoveHere(this.aHitbox.x + vXSpeed, this.aHitbox.y + vYSpeed, this.aHitbox.width, this.aHitbox.height, this.aLvlData)) {
+            this.aHitbox.x += vXSpeed;
+            this.aHitbox.y += vYSpeed;
             this.aMoving = true;
         }
     }

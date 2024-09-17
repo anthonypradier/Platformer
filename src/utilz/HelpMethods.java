@@ -3,7 +3,7 @@ package utilz;
 import main.Game;
 
 public class HelpMethods {
-    public static boolean CanMoveHere(final float pX, final float pY, final int pWidth, final int pHeight, int[][] pLvlData) {
+    public static boolean CanMoveHere(final float pX, final float pY, final float pWidth, final float pHeight, int[][] pLvlData) {
         if(!isSolid(pX, pY, pLvlData)) {
             if(!isSolid(pX + pWidth, pY + pHeight, pLvlData)) {
                 if(!isSolid(pX + pWidth, pY, pLvlData)) {
