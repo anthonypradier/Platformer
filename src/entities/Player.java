@@ -31,6 +31,8 @@ public class Player extends Entity {
 
 //    private float  aXDrawOffset = 40 * Game.SCALE;
 //    private float aYDrawOffset = 38 * Game.SCALE;
+    private float aXDrawOffset = 40 * Game.SCALE;
+    private float aYDrawOffset = 38 * Game.SCALE;
     // 32 + 8 en x, 32 + 6 en y
 
     public Player(final float pX, final float pY, final int pWidth, final int pHeight) {
@@ -41,6 +43,7 @@ public class Player extends Entity {
         this.aYDrawOffset = 38 * Game.SCALE;
 
         this.initHitbox(pX + this.aXDrawOffset, pY + this.aYDrawOffset, 16 * Game.SCALE, 26 * Game.SCALE);
+        this.initHitbox(pX, pY, 16 * Game.SCALE, 26 * Game.SCALE);
     }
 
     public void update() {
@@ -56,6 +59,9 @@ public class Player extends Entity {
 
         pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
 //        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x), (int)(this.aHitbox.y), this.aWidth, this.aHeight, null);
+        this.drawSpriteBox(pG);
+//        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
+        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
     // TODO : actuellement : on affiche l'image en soustrayant les coordonnées d'offset de la sprite. A faire : afficher la sprite en elle meme comme avant en faisant l'offset sur la hitBox et non sur l'affichage. Faire drawSpriteBox()
     }
 
@@ -120,7 +126,6 @@ public class Player extends Entity {
 
             this.aSpriteBox.x += vXSpeed;
             this.aSpriteBox.y += vYSpeed;
-
             this.aMoving = true;
         }
     }
