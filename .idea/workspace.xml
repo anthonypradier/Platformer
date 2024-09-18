@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b10453a7-c44c-4819-b8c3-bd65c0c938e9" name="Changes" comment="draw the sprite box rectangle, moved the drawOffset values to Entity">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilz/HelpMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilz/HelpMethods.java" afterDir="false" />
-    </list>
+    <list default="true" id="b10453a7-c44c-4819-b8c3-bd65c0c938e9" name="Changes" comment="Collision with the borders of the screen" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -151,13 +146,13 @@
     </task>
     <task id="LOCAL-00010" summary="Collision with the borders of the screen">
       <option name="closed" value="true" />
-      <created>1726588565890</created>
+      <created>1726648735440</created>
       <option name="number" value="00010" />
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1726588565890</updated>
+      <updated>1726648735440</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -176,8 +171,8 @@
     <MESSAGE value="Start of the whole animation implementation" />
     <MESSAGE value="Solid movement and gameloop" />
     <MESSAGE value="Level creation" />
-    <MESSAGE value="Collision with the borders of the screen" />
     <MESSAGE value="draw the sprite box rectangle, moved the drawOffset values to Entity" />
-    <option name="LAST_COMMIT_MESSAGE" value="draw the sprite box rectangle, moved the drawOffset values to Entity" />
+    <MESSAGE value="Collision with the borders of the screen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Collision with the borders of the screen" />
   </component>
 </project>
