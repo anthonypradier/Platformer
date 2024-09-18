@@ -7,6 +7,9 @@ import java.awt.geom.Rectangle2D;
 
 public abstract class Entity {
     protected float aX, aY;
+    /**
+     * Coordonnées de l'IMAGE a l'interieur de la sprite
+     */
     protected float aXDrawOffset, aYDrawOffset;
     protected int aWidth, aHeight;
     protected Rectangle2D.Float aSpriteBox;
@@ -24,14 +27,14 @@ public abstract class Entity {
     protected void drawHitbox(final Graphics pG) {
         // For debugging hitbox
         pG.setColor(Color.pink);
-        pG.drawRect((int)(this.aHitbox.x), (int)(this.aHitbox.y), (int)this.aHitbox.width, (int)this.aHitbox.height);
+//        pG.drawRect((int)(this.aHitbox.x + this.aXDrawOffset), (int)(this.aHitbox.y + this.aYDrawOffset), (int)this.aHitbox.width, (int)this.aHitbox.height);
         pG.drawRect((int)this.aHitbox.x, (int)this.aHitbox.y, (int)this.aHitbox.width, (int)this.aHitbox.height);
     }
 
     protected void drawSpriteBox(final Graphics pG) {
         pG.setColor(Color.RED);
         pG.drawRect((int)this.aSpriteBox.x, (int)this.aSpriteBox.y, (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE), (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE));
-        pG.drawRect((int)this.aX, (int)this.aY, (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE), (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE));
+//        pG.drawRect((int)this.aX, (int)this.aY, (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE), (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE));
     }
 
     protected void initHitbox(final float pX, final float pY, final float pWidth, final float pHeight) {

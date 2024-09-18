@@ -13,7 +13,7 @@ import static utilz.Constants.Directions.*;
 import static utilz.Constants.Directions.DOWN;
 import static utilz.Constants.PlayerConstants.*;
 
-import static utilz.HelpMethods.CanMoveHere;
+import static utilz.HelpMethods.*;
 
 public class Player extends Entity {
     private BufferedImage[][] aAnimations;
@@ -35,6 +35,13 @@ public class Player extends Entity {
     private float aYDrawOffset = 38 * Game.SCALE;
     // 32 + 8 en x, 32 + 6 en y
 
+    // JUMPING / GRAVITY
+    private float aAirSpeed = 0f;
+    private float aGravity = 0.04f * Game.SCALE;
+    private float aJumpSpeed = -2.25f * Game.SCALE;
+    private float aFallSpeedAfterCollision = 0.5f * Game.SCALE;
+    private boolean aInAir = false;
+
     public Player(final float pX, final float pY, final int pWidth, final int pHeight) {
         super(pX, pY, pWidth, pHeight);
         this.loadAnimations();
@@ -43,7 +50,7 @@ public class Player extends Entity {
         this.aYDrawOffset = 38 * Game.SCALE;
 
         this.initHitbox(pX + this.aXDrawOffset, pY + this.aYDrawOffset, 16 * Game.SCALE, 26 * Game.SCALE);
-        this.initHitbox(pX, pY, 16 * Game.SCALE, 26 * Game.SCALE);
+//        this.initHitbox(pX, pY, 16 * Game.SCALE, 26 * Game.SCALE);
     }
 
     public void update() {
@@ -59,12 +66,12 @@ public class Player extends Entity {
 
         pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
 //        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x), (int)(this.aHitbox.y), this.aWidth, this.aHeight, null);
-        this.drawSpriteBox(pG);
-//        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
-        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
     // TODO : actuellement : on affiche l'image en soustrayant les coordonnées d'offset de la sprite. A faire : afficher la sprite en elle meme comme avant en faisant l'offset sur la hitBox et non sur l'affichage. Faire drawSpriteBox()
     }
 
+    /**
+     * Charge les animations du Player dans un tableau 2D a partir de PLAYER_ATLAS
+     */
     private void loadAnimations() {
         BufferedImage vImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
         this.aAnimations = new BufferedImage[9][6];
@@ -79,6 +86,9 @@ public class Player extends Entity {
         this.aLvlData = pLvlData;
     }
 
+    /**
+     * Change l'animation en fonction de l'état du Player, et reset les ticks si il y a changement
+     */
     public void setAnimation() {
         int vStartAnim = this.aPlayerAction;
         if(this.aMoving) {
@@ -96,40 +106,71 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Reset les ticks d'animations
+     */
     public void resetAnimTick() {
         this.aAnimTick = 0;
         this.aAnimIndex = 0;
     }
 
+    /**
+     * Modifie la position du Player ainsi que de sa Hitbox et de sa SpriteBox
+     */
     public void updatePosition() {
         this.aMoving = false;
-        if(!this.aLeft && !this.aUp && !this.aRight && !this.aDown) {
+        if(!this.aLeft && !this.aRight && !this.aInAir) {
             return;
         }
-        float vXSpeed = 0; float vYSpeed = 0;
+        float vXSpeed = 0;
 
-        if(this.aLeft && !this.aRight) {
-            vXSpeed = -this.aPlayerSpeed;
-        } else if(!this.aLeft  && this.aRight) {
-            vXSpeed = this.aPlayerSpeed;
+        if(this.aLeft) {
+            vXSpeed -= this.aPlayerSpeed;
+        }
+        if(this.aRight) {
+            vXSpeed += this.aPlayerSpeed;
         }
 
-        if(this.aUp && !this.aDown) {
-            vYSpeed = -this.aPlayerSpeed;
-        } else if(!this.aUp  && this.aDown) {
-            vYSpeed = this.aPlayerSpeed;
+//        if(this.aUp && !this.aDown) {
+//            vYSpeed = -this.aPlayerSpeed;
+//        } else if(!this.aUp  && this.aDown) {
+//            vYSpeed = this.aPlayerSpeed;
+//        }
+
+        if(this.aInAir) {
+
+        } else {
+            this.updateXPos(vXSpeed);
         }
 
-        if(CanMoveHere(this.aHitbox.x + vXSpeed, this.aHitbox.y + vYSpeed, this.aHitbox.width, this.aHitbox.height, this.aLvlData)) {
-            this.aHitbox.x += vXSpeed;
-            this.aHitbox.y += vYSpeed;
 
-            this.aSpriteBox.x += vXSpeed;
-            this.aSpriteBox.y += vYSpeed;
-            this.aMoving = true;
+//        if(CanMoveHere(this.aHitbox.x + vXSpeed, this.aHitbox.y + vYSpeed, this.aHitbox.width, this.aHitbox.height, this.aLvlData)) {
+//            this.aHitbox.x += vXSpeed;
+//            this.aHitbox.y += vYSpeed;
+//
+//            this.aSpriteBox.x += vXSpeed;
+//            this.aSpriteBox.y += vYSpeed;
+//            this.aMoving = true;
+//        }
+    }
+
+    /**
+     * Modifie la position en X du Player, de sa Hitbox et de sa Spritebox
+     * @param pXSpeed la vitesse
+     */
+    private void updateXPos(final float pXSpeed) {
+        if(CanMoveHere(this.aHitbox.x + pXSpeed, this.aHitbox.y, this.aHitbox.width, this.aHitbox.height, this.aLvlData)) {
+            this.aHitbox.x += pXSpeed;
+
+            this.aSpriteBox.x += pXSpeed;
+        } else {
+            this.aHitbox.x = GetEntityXPosNextToWall(this.aHitbox, pXSpeed);
         }
     }
 
+    /**
+     * Détermine l'image a afficher pour jouer l'animation
+     */
     private void updateAnimTick() {
         this.aAnimTick++;
         if(this.aAnimTick == this.aAnimSpeed) {
