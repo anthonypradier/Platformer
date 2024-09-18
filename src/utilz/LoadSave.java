@@ -9,11 +9,16 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class LoadSave {
+    // Nom de fichiers
     public static final String PLAYER_ATLAS = "/Player-sprites-export.png";
     public static final String LEVEL_ATLAS = "/Outside-sprites.png";
     public static final String LEVEL_ONE_DATA = "/Level-one-data-export.png";
 
-
+    /**
+     * Charge et renvoie l'image liée au nom de fichier
+     * @param pFileName nom de fichier
+     * @return L'image
+     */
     public static BufferedImage GetSpriteAtlas(final String pFileName) {
         BufferedImage vImg = null;
         InputStream vIS = LoadSave.class.getResourceAsStream(pFileName);

@@ -12,6 +12,11 @@ public class Constants {
         public static final int ATTACK_JUMP_1 = 7;
         public static final int ATTACK_JUMP_2 = 8;
 
+        /**
+         * Renvoie le nombre de sprites pour l'animation a afficher en fonction de l'action de l'Entity
+         * @param pPlayerAction
+         * @return Renvoie le nombre d'images
+         */
         public static int GetSpriteAmount(final int pPlayerAction) {
             switch (pPlayerAction) {
                 case IDLE:
