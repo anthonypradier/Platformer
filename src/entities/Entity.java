@@ -20,8 +20,6 @@ public abstract class Entity {
         this.aY = pY;
         this.aWidth = pWidth;
         this.aHeight = pHeight;
-
-        this.initSpriteBox();
     }
 
     protected void drawHitbox(final Graphics pG) {
@@ -41,8 +39,8 @@ public abstract class Entity {
         this.aHitbox = new Rectangle2D.Float(pX, pY, pWidth, pHeight);
     }
 
-    protected void initSpriteBox() {
-        this.aSpriteBox = new Rectangle2D.Float(this.aX, this.aY, Game.PLAYER_SPRITE_SIZE * Game.SCALE, Game.PLAYER_SPRITE_SIZE * Game.SCALE);
+    protected void initSpriteBox(final float pX, final float pY, final float pWidth, final float pHeight) {
+        this.aSpriteBox = new Rectangle2D.Float(pX, pY, pWidth, pHeight);
     }
 
     /*protected void updateHitbox() {

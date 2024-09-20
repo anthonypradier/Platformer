@@ -15,10 +15,10 @@ public class HelpMethods {
      * @return si l'Entity peut se déplacer
      */
     public static boolean CanMoveHere(final float pX, final float pY, final float pWidth, final float pHeight, int[][] pLvlData) {
-        if(!isSolid(pX, pY, pLvlData)) {
-            if(!isSolid(pX + pWidth, pY + pHeight, pLvlData)) {
-                if(!isSolid(pX + pWidth, pY, pLvlData)) {
-                    if(!isSolid(pX, pY + pHeight, pLvlData)) {
+        if(!IsSolid(pX, pY, pLvlData)) {
+            if(!IsSolid(pX + pWidth, pY + pHeight, pLvlData)) {
+                if(!IsSolid(pX + pWidth, pY, pLvlData)) {
+                    if(!IsSolid(pX, pY + pHeight, pLvlData)) {
                         return true;
                     }
                 }
@@ -34,7 +34,7 @@ public class HelpMethods {
      * @param pLvlData
      * @return Si la tuile est solide
      */
-    private static boolean isSolid(final float pX, final float pY, int[][] pLvlData) {
+    private static boolean IsSolid(final float pX, final float pY, int[][] pLvlData) {
         if(pX < 0 || pX >= Game.GAME_WIDTH) {
             return true;
         }
@@ -54,20 +54,42 @@ public class HelpMethods {
 
     /**
      * Détermine la position de l'Entity lorsqu'il entre en collision avec un mur
-     * @param pHitBox Sa Hitbox
+     * @param pHitbox Sa Hitbox
      * @param pSpeed La vitesse de l'Entity
      * @return La position X de l'Entity
      */
-    public static float GetEntityXPosNextToWall(final Rectangle2D.Float pHitBox, final float pSpeed) {
-        int vCurrentTile = (int)(pHitBox.x / Game.TILE_SIZE);
+    public static float GetEntityXPosNextToWall(final Rectangle2D.Float pHitbox, final float pSpeed) {
+        int vCurrentTile = (int)(pHitbox.x / Game.TILE_SIZE);
         if(pSpeed > 0) {
             // Right, déplacement à droite
             int vTileXPos = vCurrentTile * Game.TILE_SIZE;
-            int vXOffset = (int)(Game.TILE_SIZE - pHitBox.width);
+            int vXOffset = (int)(Game.TILE_SIZE - pHitbox.width);
             return vTileXPos + vXOffset - 1;
         } else {
             // Left, déplacement à gauche
             return vCurrentTile * Game.TILE_SIZE;
         }
+    }
+
+    public static float GetEntityYPosUnderRoofAboveFloor(final Rectangle2D.Float pHitbox, final float pAirSpeed) {
+        int vCurrentTile = (int)(pHitbox.y / Game.TILE_SIZE);
+
+        if(pAirSpeed > 0) {
+            // Falling - touching floor
+            int vTileYPos = vCurrentTile * Game.TILE_SIZE;
+            int vYOffset = (int)(Game.TILE_SIZE - pHitbox.height);
+            return vTileYPos + vYOffset - 1;
+        } else {
+            // Jumping
+            return vCurrentTile * Game.TILE_SIZE;
+        }
+    }
+
+    public static boolean IsEntityOnFloor(final Rectangle2D.Float pHitbox, final int[][] pLvlData) {
+        // Check the pixel below bottomleft and bottomright
+        if(!(IsSolid(pHitbox.x, pHitbox.y + pHitbox.height + 1, pLvlData) || IsSolid(pHitbox.x + pHitbox.width, pHitbox.y + pHitbox.height + 1, pLvlData)) ) {
+            return false;
+        }
+        return true;
     }
 }

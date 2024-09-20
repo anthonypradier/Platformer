@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b10453a7-c44c-4819-b8c3-bd65c0c938e9" name="Changes" comment="Collision with the borders of the screen">
+    <list default="true" id="b10453a7-c44c-4819-b8c3-bd65c0c938e9" name="Changes" comment="begining of gravity">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilz/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilz/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilz/LoadSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilz/LoadSave.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/inputs/KeyboardInputs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/inputs/KeyboardInputs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilz/HelpMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilz/HelpMethods.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +167,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726648930119</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="begining of gravity">
+      <option name="closed" value="true" />
+      <created>1726653597681</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1726653597681</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -185,6 +196,7 @@
     <MESSAGE value="Level creation" />
     <MESSAGE value="draw the sprite box rectangle, moved the drawOffset values to Entity" />
     <MESSAGE value="Collision with the borders of the screen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Collision with the borders of the screen" />
+    <MESSAGE value="begining of gravity" />
+    <option name="LAST_COMMIT_MESSAGE" value="begining of gravity" />
   </component>
 </project>

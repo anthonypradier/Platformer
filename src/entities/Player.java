@@ -25,7 +25,7 @@ public class Player extends Entity {
     private boolean aMoving = false, aAttacking = false;
     private float aPlayerSpeed = 2.0f;
 
-    private boolean aLeft, aUp, aRight, aDown;
+    private boolean aLeft, aUp, aRight, aDown, aJump;
 
     private int[][] aLvlData;
 
@@ -49,8 +49,11 @@ public class Player extends Entity {
         this.aXDrawOffset = 40 * Game.SCALE;
         this.aYDrawOffset = 38 * Game.SCALE;
 
-        this.initHitbox(pX + this.aXDrawOffset, pY + this.aYDrawOffset, 16 * Game.SCALE, 26 * Game.SCALE);
+        this.initHitbox(pX + this.aXDrawOffset, pY + this.aYDrawOffset, 16 * Game.SCALE, 25 * Game.SCALE);
+        this.initSpriteBox(this.aX, this.aY, Game.PLAYER_SPRITE_SIZE * Game.SCALE, Game.PLAYER_SPRITE_SIZE * Game.SCALE);
 //        this.initHitbox(pX, pY, 16 * Game.SCALE, 26 * Game.SCALE);
+
+
     }
 
     public void update() {
@@ -60,9 +63,9 @@ public class Player extends Entity {
     }
 
     public void render(final Graphics pG) {
-        this.drawHitbox(pG);
-
-        this.drawSpriteBox(pG);
+//        this.drawHitbox(pG);
+//
+//        this.drawSpriteBox(pG);
 
         pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
 //        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x), (int)(this.aHitbox.y), this.aWidth, this.aHeight, null);
@@ -84,6 +87,9 @@ public class Player extends Entity {
 
     public void loadLevelData(final int[][] pLvlData) {
         this.aLvlData = pLvlData;
+        if(!IsEntityOnFloor(this.aHitbox, this.aLvlData)) {
+            this.aInAir = true;
+        }
     }
 
     /**
@@ -95,6 +101,14 @@ public class Player extends Entity {
             this.aPlayerAction = RUNNING;
         } else {
             this.aPlayerAction = IDLE;
+        }
+
+        if(this.aInAir) {
+            if(this.aAirSpeed < 0) {
+                this.aPlayerAction = JUMP;
+            } else {
+                this.aPlayerAction = FALLING;
+            }
         }
 
         if(this.aAttacking) {
@@ -119,6 +133,11 @@ public class Player extends Entity {
      */
     public void updatePosition() {
         this.aMoving = false;
+
+        if(this.aJump) {
+            this.jump();
+        }
+
         if(!this.aLeft && !this.aRight && !this.aInAir) {
             return;
         }
@@ -131,27 +150,36 @@ public class Player extends Entity {
             vXSpeed += this.aPlayerSpeed;
         }
 
-//        if(this.aUp && !this.aDown) {
-//            vYSpeed = -this.aPlayerSpeed;
-//        } else if(!this.aUp  && this.aDown) {
-//            vYSpeed = this.aPlayerSpeed;
-//        }
+        if(!this.aInAir) {
+            if(!IsEntityOnFloor(this.aHitbox, this.aLvlData)) {
+                this.aInAir = true;
+            }
+        }
 
         if(this.aInAir) {
+            if(CanMoveHere(this.aHitbox.x, this.aHitbox.y + this.aAirSpeed, this.aHitbox.width, this.aHitbox.height, this.aLvlData)) {
+                this.aHitbox.y += this.aAirSpeed;
+                this.aAirSpeed += this.aGravity;
+                this.updateXPos(vXSpeed);
 
+                // Spritebox
+                this.aSpriteBox.y += this.aAirSpeed;
+            } else {
+                this.aHitbox.y = GetEntityYPosUnderRoofAboveFloor(this.aHitbox, this.aAirSpeed);
+
+                // SpriteBox
+                this.aSpriteBox.y = GetEntityYPosUnderRoofAboveFloor(this.aHitbox, this.aAirSpeed) - this.aYDrawOffset;
+                if(this.aAirSpeed > 0) {
+                    this.resetInAir();
+                } else {
+                    this.aAirSpeed = this.aFallSpeedAfterCollision;
+                }
+                this.updateXPos(vXSpeed);
+            }
         } else {
             this.updateXPos(vXSpeed);
         }
-
-
-//        if(CanMoveHere(this.aHitbox.x + vXSpeed, this.aHitbox.y + vYSpeed, this.aHitbox.width, this.aHitbox.height, this.aLvlData)) {
-//            this.aHitbox.x += vXSpeed;
-//            this.aHitbox.y += vYSpeed;
-//
-//            this.aSpriteBox.x += vXSpeed;
-//            this.aSpriteBox.y += vYSpeed;
-//            this.aMoving = true;
-//        }
+        this.aMoving = true;
     }
 
     /**
@@ -162,10 +190,25 @@ public class Player extends Entity {
         if(CanMoveHere(this.aHitbox.x + pXSpeed, this.aHitbox.y, this.aHitbox.width, this.aHitbox.height, this.aLvlData)) {
             this.aHitbox.x += pXSpeed;
 
+            // Spritebox
             this.aSpriteBox.x += pXSpeed;
         } else {
             this.aHitbox.x = GetEntityXPosNextToWall(this.aHitbox, pXSpeed);
         }
+    }
+
+    private void jump() {
+        if(this.aInAir) {
+            return;
+        }
+
+        this.aInAir = true;
+        this.aAirSpeed = this.aJumpSpeed;
+    }
+
+    private void resetInAir() {
+        this.aInAir = false;
+        this.aAirSpeed = 0;
     }
 
     /**
@@ -199,7 +242,7 @@ public class Player extends Entity {
         return this.aLeft;
     }
 
-    public void setLeft(boolean pLeft) {
+    public void setLeft(final boolean pLeft) {
         this.aLeft = pLeft;
     }
 
@@ -207,7 +250,7 @@ public class Player extends Entity {
         return this.aUp;
     }
 
-    public void setUp(boolean pUp) {
+    public void setUp(final boolean pUp) {
         this.aUp = pUp;
     }
 
@@ -215,7 +258,7 @@ public class Player extends Entity {
         return this.aRight;
     }
 
-    public void setRight(boolean pRight) {
+    public void setRight(final boolean pRight) {
         this.aRight = pRight;
     }
 
@@ -223,7 +266,15 @@ public class Player extends Entity {
         return this.aDown;
     }
 
-    public void setDown(boolean pDown) {
+    public void setDown(final boolean pDown) {
         this.aDown = pDown;
+    }
+
+    public boolean isJump() {
+        return this.aJump;
+    }
+
+    public void setJump(final boolean pJump) {
+        this.aJump = pJump;
     }
 }
