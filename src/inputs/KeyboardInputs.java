@@ -1,5 +1,6 @@
 package inputs;
 
+import entities.GameState;
 import main.GamePanel;
 
 import java.awt.event.KeyEvent;
@@ -13,48 +14,34 @@ public class KeyboardInputs implements KeyListener {
          this.aGP = pGP;
      }
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(final KeyEvent e) {
 
     }
     // TODO : Créer une classe par touches d'après RhumOne. HashMap + liste des touches appuyées simultanément => plus facile a maintenir et lisible
     @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_Z:
-                this.aGP.getGame().getPlayer().setUp(true);
+    public void keyPressed(final KeyEvent e) {
+        switch (GameState.aState) {
+            case MENU:
+                this.aGP.getGame().getMenu().keyPressed(e);
                 break;
-            case KeyEvent.VK_Q:
-                this.aGP.getGame().getPlayer().setLeft(true);
+            case PLAYING:
+                this.aGP.getGame().getPlaying().keyPressed(e);
                 break;
-            case KeyEvent.VK_S:
-                this.aGP.getGame().getPlayer().setDown(true);
-                break;
-            case KeyEvent.VK_D:
-                this.aGP.getGame().getPlayer().setRight(true);
-                break;
-            case KeyEvent.VK_SPACE:
-                this.aGP.getGame().getPlayer().setJump(true);
+            default:
                 break;
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_Z:
-                this.aGP.getGame().getPlayer().setUp(false);
+    public void keyReleased(final KeyEvent e) {
+        switch (GameState.aState) {
+            case MENU:
+                this.aGP.getGame().getMenu().keyReleased(e);
                 break;
-            case KeyEvent.VK_Q:
-                this.aGP.getGame().getPlayer().setLeft(false);
+            case PLAYING:
+                this.aGP.getGame().getPlaying().keyReleased(e);
                 break;
-            case KeyEvent.VK_S:
-                this.aGP.getGame().getPlayer().setDown(false);
-                break;
-            case KeyEvent.VK_D:
-                this.aGP.getGame().getPlayer().setRight(false);
-                break;
-            case KeyEvent.VK_SPACE:
-                this.aGP.getGame().getPlayer().setJump(false);
+            default:
                 break;
         }
     }

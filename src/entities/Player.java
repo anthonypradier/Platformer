@@ -152,6 +152,7 @@ public class Player extends Entity {
 
         if(!this.aInAir) {
             if(!IsEntityOnFloor(this.aHitbox, this.aLvlData)) {
+                System.out.println("not on the floor");
                 this.aInAir = true;
             }
         }
@@ -224,6 +225,7 @@ public class Player extends Entity {
                 this.aAnimIndex = 0;
                 this.aAttacking = false;
             }
+            System.out.println(this.aPlayerAction + " | in air = " + this.aInAir);
         }
     }
 
