@@ -1,9 +1,10 @@
 package main;
 
-import entities.Player;
-import levels.LevelManager;
+import entities.GameState;
+import gamestates.Playing;
+import gamestates.Menu;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 public class Game implements Runnable {
     private GameWindow aGameWindow;
@@ -11,6 +12,10 @@ public class Game implements Runnable {
     private Thread aGameThread;
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
+
+    private Playing aPlaying;
+    private Menu aMenu;
+
     public final static int TILES_DEFAULT_SIZE = 32;
     public final static float SCALE = 1.5f;
     public final static int TILE_IN_WIDTH = 26;
@@ -19,9 +24,7 @@ public class Game implements Runnable {
     public final static int GAME_WIDTH = TILE_SIZE * TILE_IN_WIDTH;
     public final static int GAME_HEIGHT = TILE_SIZE * TILE_IN_HEIGHT;
 
-    private Player aPlayer;
     public static final int PLAYER_SPRITE_SIZE = 96;
-    private LevelManager aLevelManager;
 
     public Game() {
         this.initClasses();
@@ -32,9 +35,8 @@ public class Game implements Runnable {
     }
 
     private void initClasses() {
-        this.aLevelManager = new LevelManager(this);
-        this.aPlayer = new Player(200, 200, (int)(PLAYER_SPRITE_SIZE * SCALE), (int)(PLAYER_SPRITE_SIZE * SCALE));
-        this.aPlayer.loadLevelData(this.aLevelManager.getCurrentLevel().getLevelData());
+        this.aMenu = new Menu(this);
+        this.aPlaying = new Playing(this);
     }
 
     private void startGameLoop() {
@@ -43,13 +45,32 @@ public class Game implements Runnable {
     }
 
     public void update() {
-        this.aLevelManager.update();
-        this.aPlayer.update();
+
+        switch (GameState.aState) {
+            case MENU:
+                this.aMenu.update();
+                break;
+            case PLAYING:
+                this.aPlaying.update();
+                break;
+            default:
+                break;
+        }
     }
 
     public void render(Graphics pG) {
-        this.aLevelManager.draw(pG);
-        this.aPlayer.render(pG);
+
+
+        switch (GameState.aState) {
+            case MENU:
+                this.aMenu.draw(pG);
+                break;
+            case PLAYING:
+                this.aPlaying.draw(pG);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -95,11 +116,17 @@ public class Game implements Runnable {
         }
     }
 
-    public Player getPlayer() {
-        return this.aPlayer;
+    public void windowFocusLost() {
+        if(GameState.aState == GameState.PLAYING) {
+            this.aPlaying.getPlayer().resetDirBoolean();
+        }
     }
 
-    public void windowFocusLost() {
-        this.aPlayer.resetDirBoolean();
+    public Menu getMenu() {
+        return this.aMenu;
+    }
+
+    public Playing getPlaying() {
+        return this.aPlaying;
     }
 }

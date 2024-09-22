@@ -87,7 +87,9 @@ public class HelpMethods {
 
     public static boolean IsEntityOnFloor(final Rectangle2D.Float pHitbox, final int[][] pLvlData) {
         // Check the pixel below bottomleft and bottomright
-        if(!(IsSolid(pHitbox.x, pHitbox.y + pHitbox.height + 1, pLvlData) || IsSolid(pHitbox.x + pHitbox.width, pHitbox.y + pHitbox.height + 1, pLvlData)) ) {
+        if(!IsSolid(pHitbox.x, pHitbox.y + pHitbox.height + 1, pLvlData) && !IsSolid(pHitbox.x + pHitbox.width, pHitbox.y + pHitbox.height + 1, pLvlData)) {
+
+            System.out.println(IsSolid(pHitbox.x, pHitbox.y + pHitbox.height + 1, pLvlData) + " " + IsSolid(pHitbox.x + pHitbox.width, pHitbox.y + pHitbox.height + 1, pLvlData));
             return false;
         }
         return true;

@@ -49,7 +49,7 @@ public class Player extends Entity {
         this.aXDrawOffset = 40 * Game.SCALE;
         this.aYDrawOffset = 38 * Game.SCALE;
 
-        this.initHitbox(pX + this.aXDrawOffset, pY + this.aYDrawOffset, 16 * Game.SCALE, 25 * Game.SCALE);
+        this.initHitbox(pX + this.aXDrawOffset, pY + this.aYDrawOffset, 16 * Game.SCALE, 24 * Game.SCALE); // ou height = 26 * scale, selon l'envie mais pas 25 car bug
         this.initSpriteBox(this.aX, this.aY, Game.PLAYER_SPRITE_SIZE * Game.SCALE, Game.PLAYER_SPRITE_SIZE * Game.SCALE);
 //        this.initHitbox(pX, pY, 16 * Game.SCALE, 26 * Game.SCALE);
 
@@ -63,9 +63,9 @@ public class Player extends Entity {
     }
 
     public void render(final Graphics pG) {
-//        this.drawHitbox(pG);
-//
-//        this.drawSpriteBox(pG);
+        this.drawHitbox(pG);
+
+        this.drawSpriteBox(pG);
 
         pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
 //        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x), (int)(this.aHitbox.y), this.aWidth, this.aHeight, null);
@@ -152,6 +152,7 @@ public class Player extends Entity {
 
         if(!this.aInAir) {
             if(!IsEntityOnFloor(this.aHitbox, this.aLvlData)) {
+                System.out.println("not on the floor");
                 this.aInAir = true;
             }
         }
@@ -224,6 +225,7 @@ public class Player extends Entity {
                 this.aAnimIndex = 0;
                 this.aAttacking = false;
             }
+            System.out.println(this.aPlayerAction + " | in air = " + this.aInAir);
         }
     }
 
