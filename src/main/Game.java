@@ -27,10 +27,16 @@ public class Game implements Runnable {
     public static final int PLAYER_SPRITE_SIZE = 96;
 
     public Game() {
+        long vT0 = System.currentTimeMillis();
+
         this.initClasses();
         this.aGamePanel = new GamePanel(this);
         this.aGameWindow = new GameWindow(this.aGamePanel);
         this.aGamePanel.requestFocus();
+
+        long vT1 = System.currentTimeMillis();
+        System.out.println((vT1 - vT0)/1000 + " sec loading");
+
         this.startGameLoop();
     }
 
@@ -53,6 +59,9 @@ public class Game implements Runnable {
             case PLAYING:
                 this.aPlaying.update();
                 break;
+            case OPTIONS:
+            case QUIT:
+                System.exit(0);
             default:
                 break;
         }

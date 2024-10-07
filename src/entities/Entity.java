@@ -35,7 +35,7 @@ public abstract class Entity {
 //        pG.drawRect((int)this.aX, (int)this.aY, (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE), (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE));
     }
 
-    protected void initHitbox(final float pX, final float pY, final float pWidth, final float pHeight) {
+    protected void initHitbox(final float pX, final float pY, final int pWidth, final int pHeight) { // W et H int pour corriger les bugs d'anim pour n'importe quel scale
         this.aHitbox = new Rectangle2D.Float(pX, pY, pWidth, pHeight);
     }
 

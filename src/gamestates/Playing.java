@@ -1,5 +1,6 @@
 package gamestates;
 
+import entities.GameState;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
@@ -84,6 +85,8 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_SPACE:
                 this.aPlayer.setJump(true);
                 break;
+            case KeyEvent.VK_ESCAPE:
+                GameState.aState = GameState.MENU;
         }
     }
 
