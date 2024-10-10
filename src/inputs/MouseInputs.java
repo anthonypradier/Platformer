@@ -28,6 +28,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
                     break;
                 case MENU:
                     this.aGP.getGame().getMenu().mousePressed(e);
+                    break;
             }
         }
     }
@@ -41,6 +42,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
                     break;
                 case MENU:
                     this.aGP.getGame().getMenu().mouseReleased(e);
+                    break;
             }
         }
     }
@@ -62,5 +64,12 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        switch (GameState.aState) {
+            case MENU:
+                this.aGP.getGame().getMenu().mouseMoved(e);
+                break;
+            default:
+                break;
+        }
     }
 }
