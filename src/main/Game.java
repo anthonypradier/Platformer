@@ -7,8 +7,8 @@ import gamestates.Menu;
 import java.awt.Graphics;
 
 public class Game implements Runnable {
-    private GameWindow aGameWindow;
-    private GamePanel aGamePanel;
+    private final GameWindow aGameWindow;
+    private final GamePanel aGamePanel;
     private Thread aGameThread;
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
@@ -27,16 +27,10 @@ public class Game implements Runnable {
     public static final int PLAYER_SPRITE_SIZE = 96;
 
     public Game() {
-        long vT0 = System.currentTimeMillis();
-
         this.initClasses();
         this.aGamePanel = new GamePanel(this);
         this.aGameWindow = new GameWindow(this.aGamePanel);
         this.aGamePanel.requestFocus();
-
-        long vT1 = System.currentTimeMillis();
-        System.out.println((vT1 - vT0)/1000 + " sec loading");
-
         this.startGameLoop();
     }
 
@@ -68,8 +62,6 @@ public class Game implements Runnable {
     }
 
     public void render(Graphics pG) {
-
-
         switch (GameState.aState) {
             case MENU:
                 this.aMenu.draw(pG);

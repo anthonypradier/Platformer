@@ -3,14 +3,8 @@ package entities;
 import main.Game;
 import utilz.LoadSave;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-
-import static utilz.Constants.Directions.*;
-import static utilz.Constants.Directions.DOWN;
 import static utilz.Constants.PlayerConstants.*;
 
 import static utilz.HelpMethods.*;
@@ -21,7 +15,7 @@ public class Player extends Entity {
     private int aAnimIndex;
     private final int aAnimSpeed = 25;
     private int aPlayerAction = IDLE;
-    private int aPlayerDirection = -1;
+//    private int aPlayerDirection = -1;
     private boolean aMoving = false, aAttacking = false;
     private float aPlayerSpeed = 1.0f * Game.SCALE; // Garder une vitesse constante en rapport avec la taille de la fenêtre
 
@@ -45,9 +39,6 @@ public class Player extends Entity {
     public Player(final float pX, final float pY, final int pWidth, final int pHeight) {
         super(pX, pY, pWidth, pHeight);
         this.loadAnimations();
-
-        this.aXDrawOffset = 40 * Game.SCALE;
-        this.aYDrawOffset = 38 * Game.SCALE;
 
         this.initHitbox(pX + this.aXDrawOffset, pY + this.aYDrawOffset, (int)(16 * Game.SCALE), (int)(24 * Game.SCALE)); // ou height = 26 * scale.
         this.initSpriteBox(this.aX, this.aY, Game.PLAYER_SPRITE_SIZE * Game.SCALE, Game.PLAYER_SPRITE_SIZE * Game.SCALE);

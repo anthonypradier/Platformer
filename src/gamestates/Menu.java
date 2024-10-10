@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import static utilz.LoadSave.GetSpriteAtlas;
 import static utilz.LoadSave.MENU_BACKGROUND;
 
-public class Menu extends State implements StateMethods{
+public class Menu extends State implements StateMethods {
     private MenuButton[] aButtons = new MenuButton[3];
     private BufferedImage aBackgroundImg;
     private int aMenuX, aMenuY, aMenuW, aMenuH;
@@ -33,9 +33,9 @@ public class Menu extends State implements StateMethods{
     }
 
     private void loadButtons() {
-        this.aButtons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int)(150 * Game.SCALE), 0, GameState.PLAYING);
-        this.aButtons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int)(220 * Game.SCALE), 1, GameState.OPTIONS);
-        this.aButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int)(290 * Game.SCALE), 2, GameState.QUIT);
+        this.aButtons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, GameState.PLAYING);
+        this.aButtons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (220 * Game.SCALE), 1, GameState.OPTIONS);
+        this.aButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290 * Game.SCALE), 2, GameState.QUIT);
     }
 
     @Override

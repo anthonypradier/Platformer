@@ -6,10 +6,8 @@ import main.GamePanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import static utilz.Constants.Directions.*;
-
 public class KeyboardInputs implements KeyListener {
-    private GamePanel aGP;
+    private final GamePanel aGP;
      public KeyboardInputs(final GamePanel pGP) {
          this.aGP = pGP;
      }

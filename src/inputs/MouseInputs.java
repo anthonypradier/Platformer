@@ -8,77 +8,59 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class MouseInputs implements MouseListener, MouseMotionListener {
-    private GamePanel aGP;
+    private final GamePanel aGP;
 
     public MouseInputs(final GamePanel pGP) {
         this.aGP = pGP;
     }
 
     @Override
-    public void mouseClicked(final MouseEvent e) {
-        switch (GameState.aState) {
-            case PLAYING:
-                this.aGP.getGame().getPlaying().mouseClicked(e);
-                break;
-            default:
-                break;
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if(e.getButton() == MouseEvent.BUTTON1) {
+            switch (GameState.aState) {
+                case PLAYING:
+                    this.aGP.getGame().getPlaying().mousePressed(e);
+                    break;
+                case MENU:
+                    this.aGP.getGame().getMenu().mousePressed(e);
+            }
         }
     }
 
     @Override
-    public void mousePressed(final MouseEvent e) {
-        switch (GameState.aState) {
-            case MENU:
-                this.aGP.getGame().getMenu().mousePressed(e);
-                break;
-            case PLAYING:
-                this.aGP.getGame().getPlaying().mousePressed(e);
-                break;
-            default:
-                break;
+    public void mouseReleased(MouseEvent e) {
+        if(e.getButton() == MouseEvent.BUTTON1) {
+            switch (GameState.aState) {
+                case PLAYING:
+                    this.aGP.getGame().getPlaying().mouseReleased(e);
+                    break;
+                case MENU:
+                    this.aGP.getGame().getMenu().mouseReleased(e);
+            }
         }
     }
 
     @Override
-    public void mouseReleased(final MouseEvent e) {
-        switch (GameState.aState) {
-            case MENU:
-                this.aGP.getGame().getMenu().mouseReleased(e);
-                break;
-            case PLAYING:
-                this.aGP.getGame().getPlaying().mouseReleased(e);
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void mouseEntered(final MouseEvent e) {
+    public void mouseEntered(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseExited(final MouseEvent e) {
+    public void mouseExited(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseDragged(final MouseEvent e) {
+    public void mouseDragged(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseMoved(final MouseEvent e) {
-        switch (GameState.aState) {
-            case MENU:
-                this.aGP.getGame().getMenu().mouseMoved(e);
-                break;
-            case PLAYING:
-                this.aGP.getGame().getPlaying().mouseMoved(e);
-                break;
-            default:
-                break;
-        }
+    public void mouseMoved(MouseEvent e) {
     }
 }
