@@ -4,6 +4,7 @@ import entities.GameState;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
+import ui.PauseOverlay;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -12,6 +13,8 @@ import java.awt.event.MouseEvent;
 public class Playing extends State implements StateMethods {
     private Player aPlayer;
     private LevelManager aLevelManager;
+    private PauseOverlay aPauseOverlay;
+    private boolean aPaused = true;
 
     public Playing(final Game pGame) {
         super(pGame);
@@ -22,6 +25,7 @@ public class Playing extends State implements StateMethods {
         this.aLevelManager = new LevelManager(this.aGame);
         this.aPlayer = new Player(200, 200, (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE), (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE));
         this.aPlayer.loadLevelData(this.aLevelManager.getCurrentLevel().getLevelData());
+        this.aPauseOverlay = new PauseOverlay();
     }
 
 
@@ -37,38 +41,46 @@ public class Playing extends State implements StateMethods {
     public void update() {
         this.aLevelManager.update();
         this.aPlayer.update();
+        this.aPauseOverlay.update();
     }
 
     @Override
     public void draw(Graphics pG) {
         this.aLevelManager.draw(pG);
         this.aPlayer.render(pG);
+        this.aPauseOverlay.draw(pG);
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(final MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON1) {
             this.aPlayer.setAttacking(true);
         }
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
+    public void mousePressed(final MouseEvent e) {
+        if(this.aPaused) {
+            this.aPauseOverlay.mousePressed(e);
+        }
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-
+    public void mouseReleased(final MouseEvent e) {
+        if(this.aPaused) {
+            this.aPauseOverlay.mouseReleased(e);
+        }
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-
+    public void mouseMoved(final MouseEvent e) {
+        if(this.aPaused) {
+            this.aPauseOverlay.mouseMoved(e);
+        }
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(final KeyEvent e) {
         switch (e.getKeyCode()) {
 //            case KeyEvent.VK_Z:
 //                this.aPlayer.setUp(true);
@@ -91,7 +103,7 @@ public class Playing extends State implements StateMethods {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(final KeyEvent e) {
         switch (e.getKeyCode()) {
 //            case KeyEvent.VK_Z:
 //                this.aPlayer.setUp(false);

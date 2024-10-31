@@ -15,6 +15,8 @@ public class LoadSave {
     public static final String LEVEL_ONE_DATA = "/Level_one_data.png";
     public static final String MENU_BUTTONS = "/Button_atlas.png";
     public static final String MENU_BACKGROUND = "/Menu_background.png";
+    public static final String PAUSE_BACKGROUND = "/Pause_menu.png";
+    public static final String SOUND_BUTTONS = "/Sound_button.png";
 
     /**
      * Charge et renvoie l'image liée au nom de fichier

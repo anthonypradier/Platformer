@@ -68,6 +68,9 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
             case MENU:
                 this.aGP.getGame().getMenu().mouseMoved(e);
                 break;
+            case PLAYING:
+                this.aGP.getGame().getPlaying().mouseMoved(e);
+                break;
             default:
                 break;
         }
