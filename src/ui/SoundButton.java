@@ -5,7 +5,7 @@ import utilz.LoadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static utilz.Constants.UI.PauseButtons.SOUND_SIZE_DEFAULT;
+import static utilz.Constants.UI.PauseButtons.SOUND_DEFAULT_SIZE;
 
 public class SoundButton extends PauseButton {
     private BufferedImage[][] aSoundImages;
@@ -23,7 +23,7 @@ public class SoundButton extends PauseButton {
         this.aSoundImages = new BufferedImage[2][3];
         for(int vI = 0; vI < this.aSoundImages.length; vI++) {
             for(int vJ = 0; vJ < this.aSoundImages[0].length; vJ++) {
-                this.aSoundImages[vI][vJ] = vTemp.getSubimage(vJ * SOUND_SIZE_DEFAULT, vI * SOUND_SIZE_DEFAULT, SOUND_SIZE_DEFAULT, SOUND_SIZE_DEFAULT);
+                this.aSoundImages[vI][vJ] = vTemp.getSubimage(vJ * SOUND_DEFAULT_SIZE, vI * SOUND_DEFAULT_SIZE, SOUND_DEFAULT_SIZE, SOUND_DEFAULT_SIZE);
             }
         }
     }
@@ -45,6 +45,11 @@ public class SoundButton extends PauseButton {
 
     public void draw(final Graphics pG) {
         pG.drawImage(this.aSoundImages[this.aRowIndex][this.aColIndex], this.aX, this.aY, this.aW, this.aH, null);
+    }
+
+    public void resetBools() {
+        this.aMousePressed = false;
+        this.aMouseOver = false;
     }
 
     public boolean isMouseOver() {

@@ -14,7 +14,7 @@ public class Playing extends State implements StateMethods {
     private Player aPlayer;
     private LevelManager aLevelManager;
     private PauseOverlay aPauseOverlay;
-    private boolean aPaused = true;
+    private boolean aPaused = false;
 
     public Playing(final Game pGame) {
         super(pGame);
@@ -25,7 +25,7 @@ public class Playing extends State implements StateMethods {
         this.aLevelManager = new LevelManager(this.aGame);
         this.aPlayer = new Player(200, 200, (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE), (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE));
         this.aPlayer.loadLevelData(this.aLevelManager.getCurrentLevel().getLevelData());
-        this.aPauseOverlay = new PauseOverlay();
+        this.aPauseOverlay = new PauseOverlay(this);
     }
 
 
@@ -39,16 +39,22 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void update() {
-        this.aLevelManager.update();
-        this.aPlayer.update();
-        this.aPauseOverlay.update();
+        if(!this.aPaused) {
+            this.aLevelManager.update();
+            this.aPlayer.update();
+        } else {
+            this.aPauseOverlay.update();
+        }
     }
 
     @Override
     public void draw(Graphics pG) {
         this.aLevelManager.draw(pG);
         this.aPlayer.render(pG);
-        this.aPauseOverlay.draw(pG);
+
+        if(this.aPaused) {
+            this.aPauseOverlay.draw(pG);
+        }
     }
 
     @Override
@@ -79,6 +85,12 @@ public class Playing extends State implements StateMethods {
         }
     }
 
+    public void mouseDragged(final MouseEvent e) {
+        if(this.aPaused) {
+            this.aPauseOverlay.mouseDragged(e);
+        }
+    }
+
     @Override
     public void keyPressed(final KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -98,7 +110,8 @@ public class Playing extends State implements StateMethods {
                 this.aPlayer.setJump(true);
                 break;
             case KeyEvent.VK_ESCAPE:
-                GameState.aState = GameState.MENU;
+                this.aPaused = !this.aPaused;
+                break;
         }
     }
 
@@ -121,5 +134,13 @@ public class Playing extends State implements StateMethods {
                 this.aPlayer.setJump(false);
                 break;
         }
+    }
+
+    public void unpauseGame() {
+        this.aPaused = false;
+    }
+
+    public void pauseGame() {
+        this.aPaused = true;
     }
 }
