@@ -17,8 +17,11 @@ public class VolumeButton extends PauseButton {
     public VolumeButton(final int pX, final int pY, final int pW, final int pH) {
         super(pX + pW / 2, pY, VOLUME_WIDTH, pH);
         /* VolumeButton comprend et le slider, et le bouton
+        * on positionne le bouton au milieu du slider, d'où le pX + pW / 2
+        * on soustrait ensuite la moitié du WOLUME_WIDTH au aBounds.x pour le centrer parfaitement
+        * et on fait de même pour le bouton lors du draw pour le centrer parfaitement
         * la width est celle du bouton car c'est sur ce dernier que l'on créer le bound pour les mouseEvents
-        * après avoir créee les bounds, on réinitialise la position initiale aX et la largeur aW
+        * après avoir créee les bounds grace a super(), on réinitialise la position initiale aX et la largeur aW qui sont pX et la largeur slider
         * Si on ne le fait pas, le draw du slider ne sera de la largeur du bouton de volume
         */
         this.aBounds.x -= VOLUME_WIDTH / 2;
@@ -56,6 +59,10 @@ public class VolumeButton extends PauseButton {
         pG.drawImage(this.aImages[this.aIndex], this.aButtonX - VOLUME_WIDTH / 2, this.aY, VOLUME_WIDTH, this.aH, null);
     }
 
+    /**
+     * Modifie la position en x du bouton de volume. La valeur reste comprise entre aMinX et aMaxX
+     * @param pX la position en X de la souris
+     */
     public void changeX(final int pX) {
         if(pX < this.aMinX) {
             this.aButtonX = this.aMinX;

@@ -31,12 +31,18 @@ public class PauseOverlay {
         this.createVolumeButtons();
     }
 
+    /**
+     * Créer les boutons de volume
+     */
     private void createVolumeButtons() {
         int vX = (int)(309 * Game.SCALE);
         int vY = (int)(278 * Game.SCALE);
         this.aVolumeButton = new VolumeButton(vX, vY, SLIDER_WIDTH, VOLUME_HEIGHT);
     }
 
+    /**
+     * Créer les boutons URM (unpause, replay et menu)
+     */
     private void createURMButtons() {
         int vY = (int)(325 * Game.SCALE);
         int vUnpauseX = (int)(313 * Game.SCALE);
@@ -49,6 +55,9 @@ public class PauseOverlay {
         this.aReplayButton = new UrmButton(vReplayX, vY, URM_SIZE, URM_SIZE, 1);
     }
 
+    /**
+     * Créer les boutons pour le son
+     */
     private void createSoundButtons() {
         int vSoundX = (int)(450 * Game.SCALE);
         int vMusicY = (int)(135 * Game.SCALE);
@@ -66,6 +75,9 @@ public class PauseOverlay {
         this.aBgY = (int)(20 * Game.SCALE);
     }
 
+    /**
+     * Effectue les
+     */
     public void update() {
         this.aMusicButton.update();
         this.aSFXButton.update();
