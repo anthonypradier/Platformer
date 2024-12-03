@@ -53,11 +53,11 @@ public class Player extends Entity {
         this.setAnimation();
     }
 
-    public void render(final Graphics pG) {
+    public void render(final Graphics pG, final int pLvlOffset) {
 //        this.drawHitbox(pG);
 //        this.drawSpriteBox(pG);
 
-        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset), (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
+        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x - this.aXDrawOffset) - pLvlOffset, (int)(this.aHitbox.y - this.aYDrawOffset), this.aWidth, this.aHeight, null);
 //        pG.drawImage(this.aAnimations[this.aPlayerAction][this.aAnimIndex], (int)(this.aHitbox.x), (int)(this.aHitbox.y), this.aWidth, this.aHeight, null);
     // TODO : actuellement : on affiche l'image en soustrayant les coordonnées d'offset de la sprite. A faire : afficher la sprite en elle meme comme avant en faisant l'offset sur la hitBox et non sur l'affichage. Faire drawSpriteBox()
     }
@@ -132,9 +132,16 @@ public class Player extends Entity {
             this.jump();
         }
 
-        if(!this.aLeft && !this.aRight && !this.aInAir) {
-            return;
+//        if(!this.aLeft && !this.aRight && !this.aInAir) {
+//            return;
+//        }
+
+        if(!this.aInAir) {
+            if((!this.aLeft && !this.aRight) || (this.aLeft && this.aRight)) {
+                return;
+            }
         }
+
         float vXSpeed = 0;
 
         if(this.aLeft) {

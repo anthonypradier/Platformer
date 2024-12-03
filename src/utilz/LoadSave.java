@@ -12,9 +12,11 @@ public class LoadSave {
     // Nom de fichiers
     public static final String PLAYER_ATLAS = "/Player_sprites.png";
     public static final String LEVEL_ATLAS = "/Outside_sprites.png";
-    public static final String LEVEL_ONE_DATA = "/Level_one_data.png";
+//    public static final String LEVEL_ONE_DATA = "/Level_one_data.png";
+    public static final String LEVEL_ONE_DATA = "/Level_one_data_long.png";
     public static final String MENU_BUTTONS = "/Button_atlas.png";
     public static final String MENU_BACKGROUND = "/Menu_background.png";
+    public static final String MENU_BACKGROUND_IMG = "/Background_menu.png";
     public static final String PAUSE_BACKGROUND = "/Pause_menu.png";
     public static final String SOUND_BUTTONS = "/Sound_button.png";
     public static final String URM_BUTTONS = "/Urm_buttons.png";
@@ -43,8 +45,8 @@ public class LoadSave {
     }
 
     public static int[][] GetLevelData() {
-        int[][] vLevelData = new int[Game.TILE_IN_HEIGHT][Game.TILE_IN_WIDTH];
         BufferedImage vImg = GetSpriteAtlas(LEVEL_ONE_DATA);
+        int[][] vLevelData = new int[vImg.getHeight()][vImg.getWidth()];
 
         for(int vJ = 0; vJ < vImg.getHeight(); vJ++) {
             for(int vI = 0; vI < vImg.getWidth(); vI++) {

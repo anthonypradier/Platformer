@@ -35,7 +35,8 @@ public class HelpMethods {
      * @return Si la tuile est solide
      */
     private static boolean IsSolid(final float pX, final float pY, int[][] pLvlData) {
-        if(pX < 0 || pX >= Game.GAME_WIDTH) {
+        int vMaxWidth = pLvlData[0].length * Game.TILE_SIZE;
+        if(pX < 0 || pX >= vMaxWidth) {
             return true;
         }
         if(pY < 0 || pY >= Game.GAME_HEIGHT) {

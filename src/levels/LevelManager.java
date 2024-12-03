@@ -29,14 +29,14 @@ public class LevelManager {
         }
     }
 
-    public void draw(final Graphics pG) {
+    public void draw(final Graphics pG, final int pLvlOffset) {
         for(int vJ = 0; vJ < Game.TILE_IN_HEIGHT; vJ++) {
-            for(int vI = 0; vI < Game.TILE_IN_WIDTH; vI++) {
+            for(int vI = 0; vI < this.aLevel1.getLevelData()[0].length; vI++) {
                 int vIndex = this.aLevel1.getSpriteIndex(vI, vJ);
                 if(vIndex == 255) {
                     continue;
                 } else {
-                    pG.drawImage(this.aLevelSprite[vIndex], vI * Game.TILE_SIZE, vJ * Game.TILE_SIZE, Game.TILE_SIZE, Game.TILE_SIZE, null);
+                    pG.drawImage(this.aLevelSprite[vIndex], vI * Game.TILE_SIZE - pLvlOffset, vJ * Game.TILE_SIZE, Game.TILE_SIZE, Game.TILE_SIZE, null);
                 }
             }
         }

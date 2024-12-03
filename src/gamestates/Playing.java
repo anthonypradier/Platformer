@@ -5,6 +5,7 @@ import entities.Player;
 import levels.LevelManager;
 import main.Game;
 import ui.PauseOverlay;
+import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,6 +16,14 @@ public class Playing extends State implements StateMethods {
     private LevelManager aLevelManager;
     private PauseOverlay aPauseOverlay;
     private boolean aPaused = false;
+
+    private int aXLvlOffset;
+    private int aLeftBorder = (int)(0.2*Game.GAME_WIDTH);
+    private int aRightBorder = (int)(0.8*Game.GAME_WIDTH);
+    private int aLvlTilesWide = LoadSave.GetLevelData()[0].length;
+    private int aMaxTileOffset = aLvlTilesWide - Game.TILE_IN_WIDTH;
+    private int aMaxLvlOffsetX = aMaxTileOffset * Game.TILE_SIZE;
+
 
     public Playing(final Game pGame) {
         super(pGame);
@@ -42,6 +51,7 @@ public class Playing extends State implements StateMethods {
         if(!this.aPaused) {
             this.aLevelManager.update();
             this.aPlayer.update();
+            this.checkCloseToBorder();
         } else {
             this.aPauseOverlay.update();
         }
@@ -49,11 +59,29 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void draw(Graphics pG) {
-        this.aLevelManager.draw(pG);
-        this.aPlayer.render(pG);
+        this.aLevelManager.draw(pG, this.aXLvlOffset);
+        this.aPlayer.render(pG, this.aXLvlOffset);
 
         if(this.aPaused) {
+            pG.setColor(new Color(0, 0, 0, 100));
+            pG.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
             this.aPauseOverlay.draw(pG);
+        }
+    }
+
+    private void checkCloseToBorder() {
+        int vPlayerX = (int) this.aPlayer.getHitbox().getX();
+        int vDiff = vPlayerX - this.aXLvlOffset;
+
+        if (vDiff > this.aRightBorder) {
+            this.aXLvlOffset += vDiff - this.aRightBorder;
+        } else if(vDiff < this.aLeftBorder) {
+            this.aXLvlOffset += vDiff - this.aLeftBorder;
+        }
+        if(this.aXLvlOffset > this.aMaxLvlOffsetX) {
+            this.aXLvlOffset = this.aMaxLvlOffsetX;
+        } else if(this.aXLvlOffset < 0) {
+            this.aXLvlOffset = 0;
         }
     }
 

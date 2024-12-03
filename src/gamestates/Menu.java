@@ -9,12 +9,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import static utilz.LoadSave.GetSpriteAtlas;
-import static utilz.LoadSave.MENU_BACKGROUND;
+import static utilz.LoadSave.*;
 
 public class Menu extends State implements StateMethods {
     private MenuButton[] aButtons = new MenuButton[3];
     private BufferedImage aBackgroundImg;
+    private BufferedImage aBgMenuImg;
     private int aMenuX, aMenuY, aMenuW, aMenuH;
 
 
@@ -26,6 +26,7 @@ public class Menu extends State implements StateMethods {
 
     private void loadBackground() {
         this.aBackgroundImg = GetSpriteAtlas(MENU_BACKGROUND);
+        this.aBgMenuImg = GetSpriteAtlas(MENU_BACKGROUND_IMG);
         this.aMenuW = (int)(this.aBackgroundImg.getWidth() * Game.SCALE);
         this.aMenuH = (int)(this.aBackgroundImg.getHeight() * Game.SCALE);
         this.aMenuX = Game.GAME_WIDTH / 2 - this.aMenuW / 2;
@@ -47,6 +48,7 @@ public class Menu extends State implements StateMethods {
 
     @Override
     public void draw(final Graphics pG) {
+        pG.drawImage(this.aBgMenuImg, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
         pG.drawImage(this.aBackgroundImg, this.aMenuX, this.aMenuY, this.aMenuW, this.aMenuH, null);
         for(MenuButton vButton : this.aButtons) {
             vButton.draw(pG);
