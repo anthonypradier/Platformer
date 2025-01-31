@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.Random;
+
+import static utilz.Constants.Environment.*;
 
 public class Playing extends State implements StateMethods {
     private Player aPlayer;
@@ -18,18 +21,30 @@ public class Playing extends State implements StateMethods {
     private PauseOverlay aPauseOverlay;
     private boolean aPaused = false;
 
-    private int aXLvlOffset;
+    private int aXLvlOffset; // position du player dans le monde
     private int aLeftBorder = (int)(0.2*Game.GAME_WIDTH);
     private int aRightBorder = (int)(0.8*Game.GAME_WIDTH);
     private int aLvlTilesWide = LoadSave.GetLevelData()[0].length;
     private int aMaxTileOffset = aLvlTilesWide - Game.TILE_IN_WIDTH;
     private int aMaxLvlOffsetX = aMaxTileOffset * Game.TILE_SIZE;
-    private BufferedImage aPlayingBG = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BG_IMG);
+    private BufferedImage aBGImg, aBigClouds, aSmallClouds;
+
+    private int[] aSmallCloudsPos;
+    private Random aRdm = new Random();
 
 
     public Playing(final Game pGame) {
         super(pGame);
-        this.initClasses(); 
+        this.initClasses();
+
+        this.aBGImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BG_IMG);
+        this.aBigClouds = LoadSave.GetSpriteAtlas(LoadSave.BIG_CLOUDS);
+        this.aSmallClouds = LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUDS);
+        this.aSmallCloudsPos = new int[8];
+
+        for(int i = 0; i < this.aSmallCloudsPos.length; i++) {
+            this.aSmallCloudsPos[i] = (int)(90 * Game.SCALE) + this.aRdm.nextInt((int)(50*Game.SCALE), (int)(100 * Game.SCALE));
+        }
     }
 
     private void initClasses() {
@@ -61,7 +76,8 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void draw(Graphics pG) {
-        pG.drawImage(this.aPlayingBG, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+        pG.drawImage(this.aBGImg, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+        this.drawClouds(pG);
         this.aLevelManager.draw(pG, this.aXLvlOffset);
         this.aPlayer.render(pG, this.aXLvlOffset);
 
@@ -86,6 +102,16 @@ public class Playing extends State implements StateMethods {
         } else if(this.aXLvlOffset < 0) {
             this.aXLvlOffset = 0;
         }
+    }
+
+    private void drawClouds(final Graphics pG) {
+        for(int i = 0; i < 3; i++) { // 204 heuteur à partir de laquelle l'eau est coupée
+            pG.drawImage(this.aBigClouds, i * BIG_CLOUDS_WIDTH - (int)(this.aXLvlOffset * 0.3), (int)(204*Game.SCALE), BIG_CLOUDS_WIDTH, BIG_CLOUDS_HEIGHT, null);
+        }
+        for(int i = 0; i < this.aSmallCloudsPos.length; i++) {
+
+            pG.drawImage(this.aSmallClouds, SMALL_CLOUDS_WIDTH * 4 * i - (int)(this.aXLvlOffset * .4), this.aSmallCloudsPos[i], SMALL_CLOUDS_WIDTH, SMALL_CLOUDS_HEIGHT, null);
+        }//  - (int)(this.aXLvlOffset * .5) pour faire bouger le bg en même temps que le joueur
     }
 
     @Override
