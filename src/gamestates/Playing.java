@@ -1,5 +1,6 @@
 package gamestates;
 
+import entities.EnemyManager;
 import entities.GameState;
 import entities.Player;
 import levels.LevelManager;
@@ -18,6 +19,7 @@ import static utilz.Constants.Environment.*;
 public class Playing extends State implements StateMethods {
     private Player aPlayer;
     private LevelManager aLevelManager;
+    private EnemyManager aEnemyManager;
     private PauseOverlay aPauseOverlay;
     private boolean aPaused = false;
 
@@ -49,6 +51,7 @@ public class Playing extends State implements StateMethods {
 
     private void initClasses() {
         this.aLevelManager = new LevelManager(this.aGame);
+        this.aEnemyManager = new EnemyManager(this);
         this.aPlayer = new Player(200, 200, (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE), (int)(Game.PLAYER_SPRITE_SIZE * Game.SCALE));
         this.aPlayer.loadLevelData(this.aLevelManager.getCurrentLevel().getLevelData());
         this.aPauseOverlay = new PauseOverlay(this);
@@ -68,6 +71,7 @@ public class Playing extends State implements StateMethods {
         if(!this.aPaused) {
             this.aLevelManager.update();
             this.aPlayer.update();
+            this.aEnemyManager.update();
             this.checkCloseToBorder();
         } else {
             this.aPauseOverlay.update();
@@ -80,6 +84,7 @@ public class Playing extends State implements StateMethods {
         this.drawClouds(pG);
         this.aLevelManager.draw(pG, this.aXLvlOffset);
         this.aPlayer.render(pG, this.aXLvlOffset);
+        this.aEnemyManager.draw(pG, this.aXLvlOffset);
 
         if(this.aPaused) {
             pG.setColor(new Color(0, 0, 0, 100));
