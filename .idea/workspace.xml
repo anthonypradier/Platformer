@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b10453a7-c44c-4819-b8c3-bd65c0c938e9" name="Changes" comment="a little bit of javadoc">
-      <change afterPath="$PROJECT_DIR$/res/Background_menu.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/Level_one_data_long.png" afterDir="false" />
+    <list default="true" id="b10453a7-c44c-4819-b8c3-bd65c0c938e9" name="Changes" comment="Bigger level, bg menu img and bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gamestates/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gamestates/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gamestates/Playing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gamestates/Playing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/levels/LevelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/levels/LevelManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilz/HelpMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilz/HelpMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/inputs/MouseInputs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/inputs/MouseInputs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilz/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilz/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utilz/LoadSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilz/LoadSave.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -218,7 +214,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730721967076</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Bigger level, bg menu img and bug fixes">
+      <option name="closed" value="true" />
+      <created>1733247129490</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1733247129490</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -246,6 +250,7 @@
     <MESSAGE value="URM and volume buttons added with their specific events. All is working welle" />
     <MESSAGE value="URM and volume buttons added with their specific events. All is working well" />
     <MESSAGE value="a little bit of javadoc" />
-    <option name="LAST_COMMIT_MESSAGE" value="a little bit of javadoc" />
+    <MESSAGE value="Bigger level, bg menu img and bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bigger level, bg menu img and bug fixes" />
   </component>
 </project>

@@ -21,6 +21,8 @@ public class LoadSave {
     public static final String SOUND_BUTTONS = "/Sound_button.png";
     public static final String URM_BUTTONS = "/Urm_buttons.png";
     public static final String VOLUME_BUTTONS = "/Volume_buttons.png";
+    public static final String PLAYING_BG_IMG = "/playing_bg_img.png";
+    public static final String SMALL_CLOUDS = "/small_clouds.png";
 
     /**
      * Charge et renvoie l'image liée au nom de fichier

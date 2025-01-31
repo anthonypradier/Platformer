@@ -10,6 +10,7 @@ import utilz.LoadSave;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 public class Playing extends State implements StateMethods {
     private Player aPlayer;
@@ -23,6 +24,7 @@ public class Playing extends State implements StateMethods {
     private int aLvlTilesWide = LoadSave.GetLevelData()[0].length;
     private int aMaxTileOffset = aLvlTilesWide - Game.TILE_IN_WIDTH;
     private int aMaxLvlOffsetX = aMaxTileOffset * Game.TILE_SIZE;
+    private BufferedImage aPlayingBG = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BG_IMG);
 
 
     public Playing(final Game pGame) {
@@ -59,6 +61,7 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void draw(Graphics pG) {
+        pG.drawImage(this.aPlayingBG, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
         this.aLevelManager.draw(pG, this.aXLvlOffset);
         this.aPlayer.render(pG, this.aXLvlOffset);
 
